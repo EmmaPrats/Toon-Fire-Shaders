@@ -1,0 +1,29 @@
+#version 330 core
+
+in vec2 vTexCoord;
+in vec3 vColor;
+
+uniform vec2 uCenter = vec2(0.5, 0.25);
+uniform float uRadius = 0.4;
+
+out vec4 fragColor;
+
+float eggShapeNoSqrt(vec2 coord)
+{
+    vec2 coordToCenter = coord - uCenter;
+
+    if (coord.y > uCenter.y)
+        coordToCenter.y *= 0.5;
+    else
+        coordToCenter.y *= 1.5;
+
+    float distanceToCenter = coordToCenter.x * coordToCenter.x + coordToCenter.y * coordToCenter.y;
+    return 1.0 - distanceToCenter / (uRadius * uRadius);
+}
+
+void main()
+{
+    float eggShape = eggShapeNoSqrt(vTexCoord);
+
+    fragColor = vec4(vec3(eggShape), 1.0);
+}
