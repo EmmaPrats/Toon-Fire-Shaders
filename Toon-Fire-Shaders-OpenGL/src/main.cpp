@@ -89,6 +89,22 @@ glm::vec3 eggQuad2Position = glm::vec3(2.5f, -1.0f, 0.0f);
 Object3D eggSqQuad2;
 glm::vec3 eggSqQuad2Position = glm::vec3(2.5f, -2.0f, 0.0f);
 
+Object3D step83QuadC;
+glm::vec3 step83QuadCPosition = glm::vec3(3.5f, -1.0f, 0.0f);
+Shader step83QuadCShader;
+
+Object3D step83QuadD;
+glm::vec3 step83QuadDPosition = glm::vec3(4.5f, -1.0f, 0.0f);
+Shader step83QuadDShader;
+
+Object3D step83QuadE;
+glm::vec3 step83QuadEPosition = glm::vec3(3.5f, -2.0f, 0.0f);
+Shader step83QuadEShader;
+
+Object3D step83QuadF;
+glm::vec3 step83QuadFPosition = glm::vec3(4.5f, -2.0f, 0.0f);
+Shader step83QuadFShader;
+
 enum direction
 {
 	DIR_FORWARD,
@@ -158,6 +174,10 @@ int main()
 	step8QuadDShader.deleteProgram();
 	eggQuadShader.deleteProgram();
 	eggSqQuadShader.deleteProgram();
+	step83QuadCShader.deleteProgram();
+	step83QuadDShader.deleteProgram();
+	step83QuadEShader.deleteProgram();
+	step83QuadFShader.deleteProgram();
 
 	step1Quad.clearGPU();
 	step2Quad.clearGPU();
@@ -176,6 +196,10 @@ int main()
 	eggSqQuad.clearGPU();
 	eggQuad2.clearGPU();
 	eggSqQuad2.clearGPU();
+	step83QuadC.clearGPU();
+	step83QuadD.clearGPU();
+	step83QuadE.clearGPU();
+	step83QuadF.clearGPU();
 
 	glfwTerminate();
 	window = NULL;
@@ -316,6 +340,26 @@ bool initGL(int* code)
 	eggSqQuad2.loadObjFromDisk("resources/objects/Quad.txt");
 	eggSqQuad2.setPosition(eggSqQuad2Position);
 	eggSqQuad2.setShader(&eggSqQuadShader);
+
+	step83QuadCShader.init("resources/shaders/plain_quad.vertex", "resources/shaders/step_8_3_fire_C.fragment");
+	step83QuadC.loadObjFromDisk("resources/objects/Quad.txt");
+	step83QuadC.setPosition(step83QuadCPosition);
+	step83QuadC.setShader(&step83QuadCShader);
+
+	step83QuadDShader.init("resources/shaders/plain_quad.vertex", "resources/shaders/step_8_3_fire_D.fragment");
+	step83QuadD.loadObjFromDisk("resources/objects/Quad.txt");
+	step83QuadD.setPosition(step83QuadDPosition);
+	step83QuadD.setShader(&step83QuadDShader);
+
+	step83QuadEShader.init("resources/shaders/plain_quad.vertex", "resources/shaders/step_8_3_fire_E.fragment");
+	step83QuadE.loadObjFromDisk("resources/objects/Quad.txt");
+	step83QuadE.setPosition(step83QuadEPosition);
+	step83QuadE.setShader(&step83QuadEShader);
+
+	step83QuadFShader.init("resources/shaders/plain_quad.vertex", "resources/shaders/step_8_3_fire_F.fragment");
+	step83QuadF.loadObjFromDisk("resources/objects/Quad.txt");
+	step83QuadF.setPosition(step83QuadFPosition);
+	step83QuadF.setShader(&step83QuadFShader);
 	
 	code = 0;
 	return true;
@@ -446,6 +490,38 @@ void renderScene()
 	camera.setUniformViewMatrix(UniformViewM);
 	eggSqQuad.render();
 	eggSqQuad2.render();
+
+	step83QuadCShader.use();
+	UniformViewM = glGetUniformLocation(step83QuadCShader.getID(), "uView");
+	UniformProjectionM = glGetUniformLocation(step83QuadCShader.getID(), "uProjection");
+	camera.setUniformProjectionMatrix(SCREEN_WIDTH, SCREEN_HEIGHT, UniformProjectionM);
+	camera.setUniformViewMatrix(UniformViewM);
+	step83QuadCShader.setFloat("uTime", glfwGetTime());
+	step83QuadC.render();
+
+	step83QuadDShader.use();
+	UniformViewM = glGetUniformLocation(step83QuadDShader.getID(), "uView");
+	UniformProjectionM = glGetUniformLocation(step83QuadDShader.getID(), "uProjection");
+	camera.setUniformProjectionMatrix(SCREEN_WIDTH, SCREEN_HEIGHT, UniformProjectionM);
+	camera.setUniformViewMatrix(UniformViewM);
+	step83QuadDShader.setFloat("uTime", glfwGetTime());
+	step83QuadD.render();
+
+	step83QuadEShader.use();
+	UniformViewM = glGetUniformLocation(step83QuadEShader.getID(), "uView");
+	UniformProjectionM = glGetUniformLocation(step83QuadEShader.getID(), "uProjection");
+	camera.setUniformProjectionMatrix(SCREEN_WIDTH, SCREEN_HEIGHT, UniformProjectionM);
+	camera.setUniformViewMatrix(UniformViewM);
+	step83QuadEShader.setFloat("uTime", glfwGetTime());
+	step83QuadE.render();
+
+	step83QuadFShader.use();
+	UniformViewM = glGetUniformLocation(step83QuadFShader.getID(), "uView");
+	UniformProjectionM = glGetUniformLocation(step83QuadFShader.getID(), "uProjection");
+	camera.setUniformProjectionMatrix(SCREEN_WIDTH, SCREEN_HEIGHT, UniformProjectionM);
+	camera.setUniformViewMatrix(UniformViewM);
+	step83QuadFShader.setFloat("uTime", glfwGetTime());
+	step83QuadF.render();
 }
 
 void framebuffer_size_callback(GLFWwindow* window, int width, int height)
