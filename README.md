@@ -1,6 +1,6 @@
 # Toon Fire Shaders
 
-These are the shaders:
+These are the results:
 
 <table>
   <tbody>
