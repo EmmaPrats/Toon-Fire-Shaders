@@ -1,0 +1,13 @@
+#version 330 core
+
+in vec2 vTexCoord;
+in vec3 vColor;
+
+out vec4 fragColor;
+
+void main()
+{
+    float gradient = 1.0 - vTexCoord.y;
+
+    fragColor = vec4(vec3(gradient), 1.0);
+}
