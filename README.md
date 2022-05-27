@@ -118,7 +118,7 @@ This step is different for each of the variations.
       </td>
       <td>
         <h4>Step 8.1: Add the result of step 7 and half the gradient squared</h4>
-        <p>This way we get a taller fire than A and with brighter areas, which can be then painted with <code>uInnerInnerColor<code>.</p>
+        <p>This way we get a taller fire than A and with brighter areas, which can be then painted with <code>uInnerInnerColor</code>.</p>
         <image src="Images/step_8_1_fire_B.gif"/>
       </td>
       <td>
