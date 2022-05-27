@@ -13,12 +13,12 @@ These are the shaders:
       <th>Fire F</th>
     </tr>
     <tr>
-      <td>![Fire A](Images/fire_A.gif)</td>
-      <td>![Fire B](Images/fire_B.gif)</td>
-      <td>![Fire C](Images/fire_C.gif)</td>
-      <td>![Fire D](Images/fire_D.gif)</td>
-      <td>![Fire E](Images/fire_E.gif)</td>
-      <td>![Fire F](Images/fire_F.gif)</td>
+      <td><image src="Images/fire_A.gif"/></td>
+      <td><image src="Images/fire_B.gif"/></td>
+      <td><image src="Images/fire_C.gif"/></td>
+      <td><image src="Images/fire_D.gif"/></td>
+      <td><image src="Images/fire_E.gif"/></td>
+      <td><image src="Images/fire_F.gif"/></td>
     </tr>
   </tbody>
 </table>
@@ -74,7 +74,7 @@ We obtain the average value of the previous two steps. At this point, we can alm
 
 ### Step 4: Fractal Brownian Motion
 
-We calculate a [ruido _Fractal Brownian Motion_](https://thebookofshaders.com/13/) texture using:
+We calculate a [_Fractal Brownian Motion_ noise](https://thebookofshaders.com/13/) texture using:
 - The texture coordinates (scaled up to achieve softer color changes) as the tiling.
 - Time (scaled, affecting only the Y axis) as the offset.
 
