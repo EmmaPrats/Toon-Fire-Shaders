@@ -29,6 +29,10 @@ Object3D step1Quad;
 glm::vec3 step1QuadPosition = glm::vec3(-4.0f, 2.0f, 0.0f);
 Shader step1QuadShader;
 
+Object3D step2Quad;
+glm::vec3 step2QuadPosition = glm::vec3(-3.0f, 2.0f, 0.0f);
+Shader step2QuadShader;
+
 enum direction
 {
 	DIR_FORWARD,
@@ -86,8 +90,10 @@ int main()
 	printf("Closing.\n");
 
 	step1QuadShader.deleteProgram();
+	step2QuadShader.deleteProgram();
 
 	step1Quad.clearGPU();
+	step2Quad.clearGPU();
 
 	glfwTerminate();
 	window = NULL;
@@ -156,7 +162,12 @@ bool initGL(int* code)
 	step1Quad.loadObjFromDisk("resources/objects/Quad.txt");
 	step1Quad.setPosition(step1QuadPosition);
 	step1Quad.setShader(&step1QuadShader);
-	
+
+	step2QuadShader.init("resources/shaders/plain_quad.vertex", "resources/shaders/step_2_noise.fragment");
+	step2Quad.loadObjFromDisk("resources/objects/Quad.txt");
+	step2Quad.setPosition(step2QuadPosition);
+	step2Quad.setShader(&step2QuadShader);
+
 	code = 0;
 	return true;
 }
@@ -188,6 +199,14 @@ void renderScene()
 	camera.setUniformViewMatrix(UniformViewM);
 	step1QuadShader.setFloat("uTime", glfwGetTime());
 	step1Quad.render();
+
+	step2QuadShader.use();
+	UniformViewM = glGetUniformLocation(step2QuadShader.getID(), "uView");
+	UniformProjectionM = glGetUniformLocation(step2QuadShader.getID(), "uProjection");
+	camera.setUniformProjectionMatrix(SCREEN_WIDTH, SCREEN_HEIGHT, UniformProjectionM);
+	camera.setUniformViewMatrix(UniformViewM);
+	step2QuadShader.setFloat("uTime", glfwGetTime());
+	step2Quad.render();
 }
 
 void framebuffer_size_callback(GLFWwindow* window, int width, int height)
