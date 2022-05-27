@@ -53,6 +53,28 @@ Object3D step7Quad;
 glm::vec3 step7QuadPosition = glm::vec3(2.0f, 2.0f, 0.0f);
 Shader step7QuadShader;
 
+Object3D step8QuadA;
+glm::vec3 step8QuadAPosition = glm::vec3(-4.5f, 0.0f, 0.0f);
+Shader step8QuadAShader;
+
+Object3D step8QuadB;
+glm::vec3 step8QuadBPosition = glm::vec3(-3.5f, 0.0f, 0.0f);
+Shader step8QuadBShader;
+
+Object3D step8QuadC;
+glm::vec3 step8QuadCPosition = glm::vec3(-0.5f, 0.0f, 0.0f);
+Shader step8QuadCShader;
+
+Object3D step8QuadD;
+glm::vec3 step8QuadDPosition = glm::vec3(0.5f, 0.0f, 0.0f);
+Shader step8QuadDShader;
+
+Object3D step8QuadC2;
+glm::vec3 step8QuadC2Position = glm::vec3(3.5f, 0.0f, 0.0f);
+
+Object3D step8QuadD2;
+glm::vec3 step8QuadD2Position = glm::vec3(4.5f, 0.0f, 0.0f);
+
 enum direction
 {
 	DIR_FORWARD,
@@ -116,6 +138,10 @@ int main()
 	step5QuadShader.deleteProgram();
 	step6QuadShader.deleteProgram();
 	step7QuadShader.deleteProgram();
+	step8QuadAShader.deleteProgram();
+	step8QuadBShader.deleteProgram();
+	step8QuadCShader.deleteProgram();
+	step8QuadDShader.deleteProgram();
 
 	step1Quad.clearGPU();
 	step2Quad.clearGPU();
@@ -124,6 +150,12 @@ int main()
 	step5Quad.clearGPU();
 	step6Quad.clearGPU();
 	step7Quad.clearGPU();
+	step8QuadA.clearGPU();
+	step8QuadB.clearGPU();
+	step8QuadC.clearGPU();
+	step8QuadD.clearGPU();
+	step8QuadC2.clearGPU();
+	step8QuadD2.clearGPU();
 
 	glfwTerminate();
 	window = NULL;
@@ -223,6 +255,32 @@ bool initGL(int* code)
 	step7Quad.setPosition(step7QuadPosition);
 	step7Quad.setShader(&step7QuadShader);
 
+	step8QuadAShader.init("resources/shaders/plain_quad.vertex", "resources/shaders/step_8_1_fire_A.fragment");
+	step8QuadA.loadObjFromDisk("resources/objects/Quad.txt");
+	step8QuadA.setPosition(step8QuadAPosition);
+	step8QuadA.setShader(&step8QuadAShader);
+
+	step8QuadBShader.init("resources/shaders/plain_quad.vertex", "resources/shaders/step_8_1_fire_B.fragment");
+	step8QuadB.loadObjFromDisk("resources/objects/Quad.txt");
+	step8QuadB.setPosition(step8QuadBPosition);
+	step8QuadB.setShader(&step8QuadBShader);
+
+	step8QuadCShader.init("resources/shaders/plain_quad.vertex", "resources/shaders/step_8_1_fire_C_E.fragment");
+	step8QuadC.loadObjFromDisk("resources/objects/Quad.txt");
+	step8QuadC.setPosition(step8QuadCPosition);
+	step8QuadC.setShader(&step8QuadCShader);
+	step8QuadC2.loadObjFromDisk("resources/objects/Quad.txt");
+	step8QuadC2.setPosition(step8QuadC2Position);
+	step8QuadC2.setShader(&step8QuadCShader);
+
+	step8QuadDShader.init("resources/shaders/plain_quad.vertex", "resources/shaders/step_8_1_fire_D_F.fragment");
+	step8QuadD.loadObjFromDisk("resources/objects/Quad.txt");
+	step8QuadD.setPosition(step8QuadDPosition);
+	step8QuadD.setShader(&step8QuadDShader);
+	step8QuadD2.loadObjFromDisk("resources/objects/Quad.txt");
+	step8QuadD2.setPosition(step8QuadD2Position);
+	step8QuadD2.setShader(&step8QuadDShader);
+	
 	code = 0;
 	return true;
 }
@@ -302,6 +360,40 @@ void renderScene()
 	camera.setUniformViewMatrix(UniformViewM);
 	step7QuadShader.setFloat("uTime", glfwGetTime());
 	step7Quad.render();
+
+	step8QuadAShader.use();
+	UniformViewM = glGetUniformLocation(step8QuadAShader.getID(), "uView");
+	UniformProjectionM = glGetUniformLocation(step8QuadAShader.getID(), "uProjection");
+	camera.setUniformProjectionMatrix(SCREEN_WIDTH, SCREEN_HEIGHT, UniformProjectionM);
+	camera.setUniformViewMatrix(UniformViewM);
+	step8QuadAShader.setFloat("uTime", glfwGetTime());
+	step8QuadA.render();
+
+	step8QuadBShader.use();
+	UniformViewM = glGetUniformLocation(step8QuadBShader.getID(), "uView");
+	UniformProjectionM = glGetUniformLocation(step8QuadBShader.getID(), "uProjection");
+	camera.setUniformProjectionMatrix(SCREEN_WIDTH, SCREEN_HEIGHT, UniformProjectionM);
+	camera.setUniformViewMatrix(UniformViewM);
+	step8QuadBShader.setFloat("uTime", glfwGetTime());
+	step8QuadB.render();
+
+	step8QuadCShader.use();
+	UniformViewM = glGetUniformLocation(step8QuadCShader.getID(), "uView");
+	UniformProjectionM = glGetUniformLocation(step8QuadCShader.getID(), "uProjection");
+	camera.setUniformProjectionMatrix(SCREEN_WIDTH, SCREEN_HEIGHT, UniformProjectionM);
+	camera.setUniformViewMatrix(UniformViewM);
+	step8QuadCShader.setFloat("uTime", glfwGetTime());
+	step8QuadC.render();
+	step8QuadC2.render();
+
+	step8QuadDShader.use();
+	UniformViewM = glGetUniformLocation(step8QuadDShader.getID(), "uView");
+	UniformProjectionM = glGetUniformLocation(step8QuadDShader.getID(), "uProjection");
+	camera.setUniformProjectionMatrix(SCREEN_WIDTH, SCREEN_HEIGHT, UniformProjectionM);
+	camera.setUniformViewMatrix(UniformViewM);
+	step8QuadDShader.setFloat("uTime", glfwGetTime());
+	step8QuadD.render();
+	step8QuadD2.render();
 }
 
 void framebuffer_size_callback(GLFWwindow* window, int width, int height)
