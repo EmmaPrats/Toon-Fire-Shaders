@@ -49,6 +49,10 @@ Object3D step6Quad;
 glm::vec3 step6QuadPosition = glm::vec3(1.0f, 2.0f, 0.0f);
 Shader step6QuadShader;
 
+Object3D step7Quad;
+glm::vec3 step7QuadPosition = glm::vec3(2.0f, 2.0f, 0.0f);
+Shader step7QuadShader;
+
 enum direction
 {
 	DIR_FORWARD,
@@ -111,6 +115,7 @@ int main()
 	step4QuadShader.deleteProgram();
 	step5QuadShader.deleteProgram();
 	step6QuadShader.deleteProgram();
+	step7QuadShader.deleteProgram();
 
 	step1Quad.clearGPU();
 	step2Quad.clearGPU();
@@ -118,6 +123,7 @@ int main()
 	step4Quad.clearGPU();
 	step5Quad.clearGPU();
 	step6Quad.clearGPU();
+	step7Quad.clearGPU();
 
 	glfwTerminate();
 	window = NULL;
@@ -212,6 +218,11 @@ bool initGL(int* code)
 	step6Quad.setPosition(step6QuadPosition);
 	step6Quad.setShader(&step6QuadShader);
 
+	step7QuadShader.init("resources/shaders/plain_quad.vertex", "resources/shaders/step_7_perlin_times_fbm.fragment");
+	step7Quad.loadObjFromDisk("resources/objects/Quad.txt");
+	step7Quad.setPosition(step7QuadPosition);
+	step7Quad.setShader(&step7QuadShader);
+
 	code = 0;
 	return true;
 }
@@ -283,6 +294,14 @@ void renderScene()
 	camera.setUniformViewMatrix(UniformViewM);
 	step6QuadShader.setFloat("uTime", glfwGetTime());
 	step6Quad.render();
+
+	step7QuadShader.use();
+	UniformViewM = glGetUniformLocation(step7QuadShader.getID(), "uView");
+	UniformProjectionM = glGetUniformLocation(step7QuadShader.getID(), "uProjection");
+	camera.setUniformProjectionMatrix(SCREEN_WIDTH, SCREEN_HEIGHT, UniformProjectionM);
+	camera.setUniformViewMatrix(UniformViewM);
+	step7QuadShader.setFloat("uTime", glfwGetTime());
+	step7Quad.render();
 }
 
 void framebuffer_size_callback(GLFWwindow* window, int width, int height)
