@@ -1,0 +1,89 @@
+#version 330 core
+
+in vec2 vTexCoord;
+in vec3 vColor;
+
+uniform float uTime;
+uniform vec4 uInnerColor = vec4(1.0, 1.0, 0.0, 1.0);
+uniform vec4 uOuterColor = vec4(1.0, 0.0, 0.0, 1.0);
+uniform float uInnerThreshold = 0.4;
+uniform float uOuterThreshold = 0.15;
+
+out vec4 fragColor;
+
+const int OCTAVES = 8;
+
+//https://thebookofshaders.com/11/
+float rand(vec2 coords)
+{
+    return fract(sin(dot(coords, vec2(12.9898, 78.233))) * 43758.5453123);
+}
+
+//https://thebookofshaders.com/11/
+float noise(vec2 coord)
+{
+    vec2 i = floor(coord);
+    vec2 f = fract(coord);
+
+    float a = rand(i);
+    float b = rand(i + vec2(1.0, 0.0));
+    float c = rand(i + vec2(0.0, 1.0));
+    float d = rand(i + vec2(1.0, 1.0));
+
+    vec2 cubic = f * f * (3.0 - 2.0 * f);
+
+    return mix(a, b, cubic.x) +
+           (c - a) * cubic.y * (1.0 - cubic.x) +
+           (d - b) * cubic.x * cubic.y;
+}
+
+//https://thebookofshaders.com/13/
+float fbm(vec2 coord)
+{
+    float value = 0.0;
+    float amplitude = 0.5;
+
+    for (int i=0; i<OCTAVES; i++)
+    {
+        value += noise(coord) * amplitude;
+        coord *= 2.0;
+        amplitude *= 0.5;
+    }
+
+    return value;
+}
+
+//https://en.wikipedia.org/wiki/Blend_modes#Overlay
+float overlay(float baseLayer, float overlayLayer)
+{
+    return baseLayer < 0.5
+        ? 2.0 * overlayLayer * baseLayer
+        : 1.0 - 2.0 * (1.0 - baseLayer) * (1.0 - overlayLayer);
+}
+
+void main()
+{
+    vec2 coord = vTexCoord * 8.0;
+    vec2 fbmCoord = coord / 6.0;
+
+    float noise1 = noise(coord + vec2(uTime * 0.25, -uTime * 4.0));
+    float noise2 = noise(coord + vec2(uTime * 0.5,  -uTime * 6.0));
+    float combinedNoise = (noise1 + noise2) / 2.0;
+
+    float gradient = 1.0 - vTexCoord.y;
+
+    float fbmNoise = fbm(fbmCoord + vec2(0.0, -uTime * 2.0));
+    fbmNoise = overlay(fbmNoise, gradient);
+    
+    //float combinedNoises = combinedNoise * fbmNoise; //Too weak at the bottom and yellow gets too high
+    //float combinedNoises = combinedNoise * fbmNoise * gradient; //Too short
+    //float combinedNoises = combinedNoise * fbmNoise + 0.5 * gradient; //Too tall
+    //float combinedNoises = combinedNoise * fbmNoise + 0.5 * (gradient * gradient); //Pretty good
+    float combinedNoises = combinedNoise * fbmNoise * 1.85 * gradient; //Pretty good, a bit shorter
+
+    fragColor = combinedNoises < uOuterThreshold
+        ? vec4(0.0, 0.0, 0.0, 0.0)
+        : combinedNoises < uInnerThreshold
+            ? uOuterColor
+            : uInnerColor;
+}

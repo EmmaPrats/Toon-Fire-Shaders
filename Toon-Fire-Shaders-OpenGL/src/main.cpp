@@ -109,6 +109,30 @@ Object3D step83QuadF;
 glm::vec3 step83QuadFPosition = glm::vec3(4.5f, -2.0f, 0.0f);
 Shader step83QuadFShader;
 
+Object3D fireQuadA;
+glm::vec3 fireQuadAPosition = glm::vec3(-4.5f, -1.0f, 0.0f);
+Shader fireQuadAShader;
+
+Object3D fireQuadB;
+glm::vec3 fireQuadBPosition = glm::vec3(-3.5f, -1.0f, 0.0f);
+Shader fireQuadBShader;
+
+Object3D fireQuadC;
+glm::vec3 fireQuadCPosition = glm::vec3(-0.5f, -1.0f, 0.0f);
+Shader fireQuadCShader;
+
+Object3D fireQuadD;
+glm::vec3 fireQuadDPosition = glm::vec3(0.5f, -1.0f, 0.0f);
+Shader fireQuadDShader;
+
+Object3D fireQuadE;
+glm::vec3 fireQuadEPosition = glm::vec3(-0.5f, -2.0f, 0.0f);
+Shader fireQuadEShader;
+
+Object3D fireQuadF;
+glm::vec3 fireQuadFPosition = glm::vec3(0.5f, -2.0f, 0.0f);
+Shader fireQuadFShader;
+
 enum direction
 {
 	DIR_FORWARD,
@@ -183,6 +207,12 @@ int main()
 	step83QuadDShader.deleteProgram();
 	step83QuadEShader.deleteProgram();
 	step83QuadFShader.deleteProgram();
+	fireQuadAShader.deleteProgram();
+	fireQuadBShader.deleteProgram();
+	fireQuadCShader.deleteProgram();
+	fireQuadDShader.deleteProgram();
+	fireQuadEShader.deleteProgram();
+	fireQuadFShader.deleteProgram();
 
 	step1Quad.clearGPU();
 	step2Quad.clearGPU();
@@ -206,6 +236,12 @@ int main()
 	step83QuadD.clearGPU();
 	step83QuadE.clearGPU();
 	step83QuadF.clearGPU();
+	fireQuadA.clearGPU();
+	fireQuadB.clearGPU();
+	fireQuadC.clearGPU();
+	fireQuadD.clearGPU();
+	fireQuadE.clearGPU();
+	fireQuadF.clearGPU();
 
 	glfwTerminate();
 	window = NULL;
@@ -371,6 +407,36 @@ bool initGL(int* code)
 	step83QuadF.loadObjFromDisk("resources/objects/Quad.txt");
 	step83QuadF.setPosition(step83QuadFPosition);
 	step83QuadF.setShader(&step83QuadFShader);
+
+	fireQuadAShader.init("resources/shaders/plain_quad.vertex", "resources/shaders/fire_A.fragment");
+	fireQuadA.loadObjFromDisk("resources/objects/Quad.txt");
+	fireQuadA.setPosition(fireQuadAPosition);
+	fireQuadA.setShader(&fireQuadAShader);
+
+	fireQuadBShader.init("resources/shaders/plain_quad.vertex", "resources/shaders/fire_B.fragment");
+	fireQuadB.loadObjFromDisk("resources/objects/Quad.txt");
+	fireQuadB.setPosition(fireQuadBPosition);
+	fireQuadB.setShader(&fireQuadBShader);
+
+	fireQuadCShader.init("resources/shaders/plain_quad.vertex", "resources/shaders/fire_C.fragment");
+	fireQuadC.loadObjFromDisk("resources/objects/Quad.txt");
+	fireQuadC.setPosition(fireQuadCPosition);
+	fireQuadC.setShader(&fireQuadCShader);
+
+	fireQuadDShader.init("resources/shaders/plain_quad.vertex", "resources/shaders/fire_D.fragment");
+	fireQuadD.loadObjFromDisk("resources/objects/Quad.txt");
+	fireQuadD.setPosition(fireQuadDPosition);
+	fireQuadD.setShader(&fireQuadDShader);
+
+	fireQuadEShader.init("resources/shaders/plain_quad.vertex", "resources/shaders/fire_E.fragment");
+	fireQuadE.loadObjFromDisk("resources/objects/Quad.txt");
+	fireQuadE.setPosition(fireQuadEPosition);
+	fireQuadE.setShader(&fireQuadEShader);
+
+	fireQuadFShader.init("resources/shaders/plain_quad.vertex", "resources/shaders/fire_F.fragment");
+	fireQuadF.loadObjFromDisk("resources/objects/Quad.txt");
+	fireQuadF.setPosition(fireQuadFPosition);
+	fireQuadF.setShader(&fireQuadFShader);
 	
 	code = 0;
 	return true;
@@ -540,6 +606,54 @@ void renderScene()
 	camera.setUniformViewMatrix(UniformViewM);
 	step83QuadFShader.setFloat("uTime", glfwGetTime());
 	step83QuadF.render();
+
+	fireQuadAShader.use();
+	UniformViewM = glGetUniformLocation(fireQuadAShader.getID(), "uView");
+	UniformProjectionM = glGetUniformLocation(fireQuadAShader.getID(), "uProjection");
+	camera.setUniformProjectionMatrix(SCREEN_WIDTH, SCREEN_HEIGHT, UniformProjectionM);
+	camera.setUniformViewMatrix(UniformViewM);
+	fireQuadAShader.setFloat("uTime", glfwGetTime());
+	fireQuadA.render();
+
+	fireQuadBShader.use();
+	UniformViewM = glGetUniformLocation(fireQuadBShader.getID(), "uView");
+	UniformProjectionM = glGetUniformLocation(fireQuadBShader.getID(), "uProjection");
+	camera.setUniformProjectionMatrix(SCREEN_WIDTH, SCREEN_HEIGHT, UniformProjectionM);
+	camera.setUniformViewMatrix(UniformViewM);
+	fireQuadBShader.setFloat("uTime", glfwGetTime());
+	fireQuadB.render();
+
+	fireQuadCShader.use();
+	UniformViewM = glGetUniformLocation(fireQuadCShader.getID(), "uView");
+	UniformProjectionM = glGetUniformLocation(fireQuadCShader.getID(), "uProjection");
+	camera.setUniformProjectionMatrix(SCREEN_WIDTH, SCREEN_HEIGHT, UniformProjectionM);
+	camera.setUniformViewMatrix(UniformViewM);
+	fireQuadCShader.setFloat("uTime", glfwGetTime());
+	fireQuadC.render();
+
+	fireQuadDShader.use();
+	UniformViewM = glGetUniformLocation(fireQuadDShader.getID(), "uView");
+	UniformProjectionM = glGetUniformLocation(fireQuadDShader.getID(), "uProjection");
+	camera.setUniformProjectionMatrix(SCREEN_WIDTH, SCREEN_HEIGHT, UniformProjectionM);
+	camera.setUniformViewMatrix(UniformViewM);
+	fireQuadDShader.setFloat("uTime", glfwGetTime());
+	fireQuadD.render();
+
+	fireQuadEShader.use();
+	UniformViewM = glGetUniformLocation(fireQuadEShader.getID(), "uView");
+	UniformProjectionM = glGetUniformLocation(fireQuadEShader.getID(), "uProjection");
+	camera.setUniformProjectionMatrix(SCREEN_WIDTH, SCREEN_HEIGHT, UniformProjectionM);
+	camera.setUniformViewMatrix(UniformViewM);
+	fireQuadEShader.setFloat("uTime", glfwGetTime());
+	fireQuadE.render();
+
+	fireQuadFShader.use();
+	UniformViewM = glGetUniformLocation(fireQuadFShader.getID(), "uView");
+	UniformProjectionM = glGetUniformLocation(fireQuadFShader.getID(), "uProjection");
+	camera.setUniformProjectionMatrix(SCREEN_WIDTH, SCREEN_HEIGHT, UniformProjectionM);
+	camera.setUniformViewMatrix(UniformViewM);
+	fireQuadFShader.setFloat("uTime", glfwGetTime());
+	fireQuadF.render();
 }
 
 void framebuffer_size_callback(GLFWwindow* window, int width, int height)
