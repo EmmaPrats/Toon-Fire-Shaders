@@ -1,0 +1,26 @@
+#version 330 core
+
+in vec2 vTexCoord;
+in vec3 vColor;
+
+uniform vec4 uInnerInnerColor = vec4(1.0, 1.0, 1.0, 1.0);
+uniform vec4 uInnerColor = vec4(1.0, 1.0, 0.0, 1.0);
+uniform vec4 uOuterColor = vec4(1.0, 0.0, 0.0, 1.0);
+uniform float uInnerInnerThreshold = 0.8;
+uniform float uInnerThreshold = 0.4;
+uniform float uOuterThreshold = 0.15;
+
+out vec4 fragColor;
+
+void main()
+{
+    float gradient = 1.0 - vTexCoord.y;
+
+    fragColor = gradient >= uInnerInnerThreshold
+        ? uInnerInnerColor
+        : gradient >= uInnerThreshold
+            ? uInnerColor
+            : gradient >= uOuterThreshold
+                ? uOuterColor
+                : vec4(0.0, 0.0, 0.0, 0.0);
+}

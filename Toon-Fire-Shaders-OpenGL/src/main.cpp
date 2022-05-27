@@ -53,6 +53,10 @@ Object3D step7Quad;
 glm::vec3 step7QuadPosition = glm::vec3(2.0f, 2.0f, 0.0f);
 Shader step7QuadShader;
 
+Object3D stepColoredQuad;
+glm::vec3 stepColoredQuadPosition = glm::vec3(4.0f, 2.0f, 0.0f);
+Shader stepColoredQuadShader;
+
 Object3D step8QuadA;
 glm::vec3 step8QuadAPosition = glm::vec3(-4.5f, 0.0f, 0.0f);
 Shader step8QuadAShader;
@@ -168,6 +172,7 @@ int main()
 	step5QuadShader.deleteProgram();
 	step6QuadShader.deleteProgram();
 	step7QuadShader.deleteProgram();
+	stepColoredQuadShader.deleteProgram();
 	step8QuadAShader.deleteProgram();
 	step8QuadBShader.deleteProgram();
 	step8QuadCShader.deleteProgram();
@@ -186,6 +191,7 @@ int main()
 	step5Quad.clearGPU();
 	step6Quad.clearGPU();
 	step7Quad.clearGPU();
+	stepColoredQuad.clearGPU();
 	step8QuadA.clearGPU();
 	step8QuadB.clearGPU();
 	step8QuadC.clearGPU();
@@ -298,6 +304,11 @@ bool initGL(int* code)
 	step7Quad.loadObjFromDisk("resources/objects/Quad.txt");
 	step7Quad.setPosition(step7QuadPosition);
 	step7Quad.setShader(&step7QuadShader);
+
+	stepColoredQuadShader.init("resources/shaders/plain_quad.vertex", "resources/shaders/toon_gradient.fragment");
+	stepColoredQuad.loadObjFromDisk("resources/objects/Quad.txt");
+	stepColoredQuad.setPosition(stepColoredQuadPosition);
+	stepColoredQuad.setShader(&stepColoredQuadShader);
 
 	step8QuadAShader.init("resources/shaders/plain_quad.vertex", "resources/shaders/step_8_1_fire_A.fragment");
 	step8QuadA.loadObjFromDisk("resources/objects/Quad.txt");
@@ -440,6 +451,13 @@ void renderScene()
 	camera.setUniformViewMatrix(UniformViewM);
 	step7QuadShader.setFloat("uTime", glfwGetTime());
 	step7Quad.render();
+
+	stepColoredQuadShader.use();
+	UniformViewM = glGetUniformLocation(stepColoredQuadShader.getID(), "uView");
+	UniformProjectionM = glGetUniformLocation(stepColoredQuadShader.getID(), "uProjection");
+	camera.setUniformProjectionMatrix(SCREEN_WIDTH, SCREEN_HEIGHT, UniformProjectionM);
+	camera.setUniformViewMatrix(UniformViewM);
+	stepColoredQuad.render();
 
 	step8QuadAShader.use();
 	UniformViewM = glGetUniformLocation(step8QuadAShader.getID(), "uView");
